@@ -219,46 +219,46 @@ const editBuku = (request, h) => {
         return respon;
     }
 
-    const finished = (pageCount === readPage);
-    const updatedAt = new Date().toISOString();
+    //const finished = (pageCount === readPage);
+    //const updatedAt = new Date().toISOString();
     const index = books.findIndex((bk) => bk.id === id);
 
-    if (index !== -1) {
+    if (index === -1) {
         const respon = h.response({
-            status: 'success',
-            message: 'Buku berhasil diperbarui'
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Id tidak ditemukan'
 
-        }).code(200);
+        }).code(404);
         return respon;
-        books[index] = {
-            ...books[index],name,year,author,summary,publisher,pageCount,readPage,reading,finished,updatedAt
-        }
+        // books[index] = {
+        //     ...books[index],name,year,author,summary,publisher,pageCount,readPage,reading,finished,updatedAt
+        // }
     }
 
-    // const finished = pageCount === readPage;
-    // const updatedAt = new Date().toISOString();
-    // const index = books.findIndex((bk) => bk.id === id);
+    //  const finished = pageCount === readPage;
+    //  const updatedAt = new Date().toISOString();
+    //  const index = books.findIndex((bk) => bk.id === id);
     
-    // books[index] = {
-    //     ...books[index], name, year, author, summary, publisher, pageCount, readPage, reading,finished,updatedAt
-    // }
+    books[index] = {
+        ...books[index], name, year, author, summary, publisher, pageCount, readPage, reading,finished : pageCount === readPage,updatedAt : new Date().toDateString()
+    }
     const response = h.response({
-        status: 'fail',
-        message: 'Gagal memperbarui buku. Id tidak ditemukan',
+        status: 'success',
+        message: 'Buku berhasil diperbarui',
 
-    }).code(404);
+    }).code(200);
 
     return response;
 
 }
 
 const hapusBuku = (request, h) => {
-    const { id } = request.params;
+    const { bookId } = request.params;
 
-    const idx = books.findIndex((buku) => buku.id === id);
+    const idx = books.findIndex((buku) => buku.id === bookId);
 
     if (idx !== -1) {
-        book.splice(idx, 1);
+        books.splice(idx, 1);
         const respon = h.response({
             status: 'success',
             message: 'Buku berhasil dihapus',

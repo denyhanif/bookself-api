@@ -22,7 +22,7 @@ const routes = [
     },
     {
         method: 'DELETE',
-        path: '/books/{id}',
+        path: '/books/{bookId}',
         handler: hapusBuku
     }
     
