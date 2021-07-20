@@ -164,8 +164,8 @@ const getAllBooks = (request, h) => {
 
 const getBookById =(request, h) => {
 
-    const { id } = request.params;
-    const book = books.filter((bk) => bk.id === id)[0];
+    const { bookId } = request.params;
+    const book = books.filter((bk) => bk.id === bookId)[0];
 
     if (book) {
         const response = h.response({
@@ -173,8 +173,8 @@ const getBookById =(request, h) => {
             data: {
                 book,
             }
-        }).code(200);
-        return response;
+        }).code(200)
+        return response
     }
     // if (book !== undefined) {
     //     return {
@@ -224,11 +224,12 @@ const editBuku = (request, h) => {
     const index = books.findIndex((bk) => bk.id === id);
 
     if (index !== -1) {
-        // const respon = h.response({
-        //     status: 'fail',
-        //     message: 'Gagal memperbarui buku. Id tidak ditemukan',
-        // }).code(404);
-        // return respon;
+        const respon = h.response({
+            status: 'success',
+            message: 'Buku berhasil diperbarui'
+
+        }).code(200);
+        return respon;
         books[index] = {
             ...books[index],name,year,author,summary,publisher,pageCount,readPage,reading,finished,updatedAt
         }
@@ -242,18 +243,19 @@ const editBuku = (request, h) => {
     //     ...books[index], name, year, author, summary, publisher, pageCount, readPage, reading,finished,updatedAt
     // }
     const response = h.response({
-        status: 'success',
-        message: 'Buku berhasil diperbarui'
-    }).code(200);
+        status: 'fail',
+        message: 'Gagal memperbarui buku. Id tidak ditemukan',
+
+    }).code(404);
 
     return response;
 
 }
 
 const hapusBuku = (request, h) => {
-    const { bukuId } = request.params;
+    const { id } = request.params;
 
-    const idx = books.findIndex((buku) => buku.id === bukuId);
+    const idx = books.findIndex((buku) => buku.id === id);
 
     if (idx !== -1) {
         book.splice(idx, 1);
