@@ -61,12 +61,15 @@ const addBook = (request, h) => {
 const getAllBooks = (request, h) => {
     
     const { name, reading, finished } = request.query;
+    
     if (name !== undefined) {
+        const buku = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
         const response = h
             .response({
                 status: 'success',
                 data: {
-                    books: books.map((book) => ({
+                    books: buku
+                        .map((book) => ({
                         id: book.id,
                         name: book.name,
                         publisher: book.publisher,
@@ -75,12 +78,13 @@ const getAllBooks = (request, h) => {
             }).code(200);
         return response;
     }
-    if (reading !== null) {
+    if (reading) {
+        const buku = books.filter((book)=>book.reading === 1)
         const response = h
             .response({
                 status: 'success',
                 data: {
-                    books: books.map((book) => ({
+                    books: buku.map((book) => ({
                         id: book.id,
                         name: book.name,
                         publisher: book.publisher,
@@ -90,6 +94,7 @@ const getAllBooks = (request, h) => {
         return response;
     }
     if (finished !== null) {
+        //const buku = books.filter((book)=>book.finished === true)
         const response = h
             .response({
                 status: 'success',
